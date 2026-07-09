@@ -12,9 +12,3 @@ I built the preview as a flat, layered composition of simple SVG shapes rather t
 - **Tailwind** — lets me tune spacing, color, and responsive breakpoints directly in the markup, which kept the whole UI consistent without a separate stylesheet to maintain.
 - **Zustand** — small, hook-based state that holds the selected desk, chair, and accessory quantities without the boilerplate a context provider or a heavier state library would add.
 - **Framer Motion** — handles the enter and exit animations for items appearing in the preview and the checkout panel sliding in, with a much simpler API than hand-rolling CSS transitions for mount and unmount.
-
-## What I Would Improve With More Time
-
-- **Drag and drop repositioning** — right now item placement in the preview is fixed by category. Letting people drag the chair, monitors, and plants into their own layout would make the preview feel like their space instead of a template.
-- **Saved configurations** — there's no way to save a setup and come back to it, or share a link to it. I'd add persistence, most likely a shareable URL or an account-backed save, so people don't lose their work.
-- **Real product photography integration** — once the catalogue stabilizes, I'd swap in actual photos for the highest-traffic items, keeping the flat icon style as a fallback for anything new or less popular, so the visual quality can grow with the catalogue instead of blocking on it.
