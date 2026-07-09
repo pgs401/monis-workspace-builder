@@ -1,7 +1,7 @@
 "use client";
 
 import type { WorkspaceItem } from "@/lib/types";
-import ShapeIcon from "./ShapeIcon";
+import ProductImage from "./ProductImage";
 
 interface SingleSelectProps {
   item: WorkspaceItem;
@@ -33,9 +33,10 @@ export default function ItemCard(props: ItemCardProps) {
 
   const body = (
     <>
-      <ShapeIcon
-        shape={item.shape}
-        className={`h-10 w-10 shrink-0 sm:h-12 sm:w-12 ${isActive ? "text-teal-600" : "text-stone-400"}`}
+      <ProductImage
+        item={item}
+        active={isActive}
+        className="h-14 w-14 sm:h-16 sm:w-16"
       />
       <div className="min-w-0 flex-1">
         <p className="text-sm font-medium leading-snug text-stone-900 sm:text-base">
