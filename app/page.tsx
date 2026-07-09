@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import CataloguePanel from "@/components/CataloguePanel";
+import CatalogueTabs from "@/components/CatalogueTabs";
 import CheckoutSummary from "@/components/CheckoutSummary";
 import WorkspacePreview from "@/components/WorkspacePreview";
 import { useWorkspaceStore } from "@/lib/store";
@@ -26,7 +26,7 @@ export default function Home() {
 
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-8 sm:px-6 lg:grid-cols-2">
         <div className="min-w-0">
-          <CataloguePanel />
+          <CatalogueTabs />
         </div>
         <div className="min-w-0 lg:sticky lg:top-8 lg:self-start">
           <WorkspacePreview />
