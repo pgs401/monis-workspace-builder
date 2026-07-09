@@ -74,7 +74,7 @@ export default function WorkspacePreview() {
           <button
             type="button"
             onClick={reset}
-            className="text-sm font-medium text-stone-500 transition hover:text-stone-700"
+            className="rounded-md px-1.5 py-0.5 text-sm font-medium text-stone-500 transition hover:bg-stone-100 hover:text-stone-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600"
           >
             Start over
           </button>
