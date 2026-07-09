@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { AnimatePresence } from "framer-motion";
 import CatalogueTabs from "@/components/CatalogueTabs";
 import CheckoutSummary from "@/components/CheckoutSummary";
 import WorkspacePreview from "@/components/WorkspacePreview";
@@ -52,9 +53,11 @@ export default function Home() {
         </div>
       </div>
 
-      {checkoutOpen && (
-        <CheckoutSummary onClose={() => setCheckoutOpen(false)} />
-      )}
+      <AnimatePresence>
+        {checkoutOpen && (
+          <CheckoutSummary onClose={() => setCheckoutOpen(false)} />
+        )}
+      </AnimatePresence>
     </main>
   );
 }
