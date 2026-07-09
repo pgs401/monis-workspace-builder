@@ -1,12 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { catalogue } from "@/lib/catalogue";
 import { useWorkspaceStore } from "@/lib/store";
 
 export default function CheckoutSummary({ onClose }: { onClose: () => void }) {
   const [confirmed, setConfirmed] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    panelRef.current?.focus();
+    document.body.style.overflow = "hidden";
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [onClose]);
 
   const selectedDesk = useWorkspaceStore((state) => state.selectedDesk);
   const selectedChair = useWorkspaceStore((state) => state.selectedChair);
@@ -60,7 +74,9 @@ export default function CheckoutSummary({ onClose }: { onClose: () => void }) {
         role="dialog"
         aria-modal="true"
         aria-label="Checkout summary"
-        className="absolute inset-y-0 right-0 flex w-full max-w-md flex-col bg-white shadow-2xl"
+        ref={panelRef}
+        tabIndex={-1}
+        className="absolute inset-y-0 right-0 flex w-full max-w-md flex-col bg-white shadow-2xl focus:outline-none"
       >
         {confirmed ? (
           <div className="flex flex-1 flex-col items-center justify-center px-8 text-center">
@@ -95,7 +111,7 @@ export default function CheckoutSummary({ onClose }: { onClose: () => void }) {
             <button
               type="button"
               onClick={onClose}
-              className="mt-8 w-full rounded-xl bg-teal-600 py-3 font-semibold text-white transition hover:bg-teal-700"
+              className="mt-8 w-full rounded-xl bg-teal-600 py-3 font-semibold text-white transition hover:bg-teal-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2"
             >
               Back to the builder
             </button>
@@ -110,7 +126,7 @@ export default function CheckoutSummary({ onClose }: { onClose: () => void }) {
                 type="button"
                 onClick={onClose}
                 aria-label="Close"
-                className="rounded-full p-1 text-stone-400 transition hover:bg-stone-100 hover:text-stone-600"
+                className="rounded-full p-1 text-stone-400 transition hover:bg-stone-100 hover:text-stone-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600"
               >
                 <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none">
                   <path
@@ -166,14 +182,14 @@ export default function CheckoutSummary({ onClose }: { onClose: () => void }) {
                 <button
                   type="button"
                   onClick={() => setConfirmed(true)}
-                  className="w-full rounded-xl bg-teal-600 py-3 font-semibold text-white transition hover:bg-teal-700"
+                  className="w-full rounded-xl bg-teal-600 py-3 font-semibold text-white transition hover:bg-teal-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2"
                 >
                   Confirm Rental
                 </button>
                 <button
                   type="button"
                   onClick={onClose}
-                  className="mt-2 w-full rounded-xl py-3 font-semibold text-stone-500 transition hover:bg-stone-50 hover:text-stone-700"
+                  className="mt-2 w-full rounded-xl py-3 font-semibold text-stone-500 transition hover:bg-stone-50 hover:text-stone-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600"
                 >
                   Keep editing
                 </button>

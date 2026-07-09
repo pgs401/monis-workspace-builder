@@ -34,6 +34,27 @@ export default function CatalogueTabs() {
         role="tablist"
         aria-label="Catalogue categories"
         className="mb-4 flex gap-1 rounded-xl bg-stone-200/70 p-1"
+        onKeyDown={(event) => {
+          const currentIndex = TABS.findIndex((tab) => tab.id === activeTab);
+          let nextIndex = -1;
+          if (event.key === "ArrowRight") {
+            nextIndex = (currentIndex + 1) % TABS.length;
+          } else if (event.key === "ArrowLeft") {
+            nextIndex = (currentIndex - 1 + TABS.length) % TABS.length;
+          } else if (event.key === "Home") {
+            nextIndex = 0;
+          } else if (event.key === "End") {
+            nextIndex = TABS.length - 1;
+          }
+          if (nextIndex === -1) return;
+          event.preventDefault();
+          setActiveTab(TABS[nextIndex].id);
+          const tabs =
+            event.currentTarget.querySelectorAll<HTMLButtonElement>(
+              '[role="tab"]'
+            );
+          tabs[nextIndex]?.focus();
+        }}
       >
         {TABS.map((tab) => (
           <button
@@ -41,11 +62,12 @@ export default function CatalogueTabs() {
             type="button"
             role="tab"
             aria-selected={activeTab === tab.id}
+            tabIndex={activeTab === tab.id ? 0 : -1}
             onClick={() => setActiveTab(tab.id)}
-            className={`flex-1 rounded-lg py-2 text-sm font-semibold transition ${
+            className={`flex-1 rounded-lg py-2 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 ${
               activeTab === tab.id
                 ? "bg-white text-stone-900 shadow-sm"
-                : "text-stone-500 hover:text-stone-700"
+                : "text-stone-500 hover:bg-white/60 hover:text-stone-700"
             }`}
           >
             {tab.label}
