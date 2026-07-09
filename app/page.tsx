@@ -1,15 +1,31 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import CatalogueTabs from "@/components/CatalogueTabs";
 import CheckoutSummary from "@/components/CheckoutSummary";
+import SavedSetups from "@/components/SavedSetups";
 import WorkspacePreview from "@/components/WorkspacePreview";
 import { useWorkspaceStore } from "@/lib/store";
+import { decodeSetup } from "@/lib/share";
 
 export default function Home() {
   const [checkoutOpen, setCheckoutOpen] = useState(false);
+  const [ready, setReady] = useState(false);
   const total = useWorkspaceStore((state) => state.totalMonthlyPrice());
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const encoded = params.get("setup");
+    const shared = encoded ? decodeSetup(encoded) : null;
+
+    useWorkspaceStore.persist.rehydrate();
+    if (shared) {
+      useWorkspaceStore.getState().applyShared(shared);
+      window.history.replaceState(null, "", window.location.pathname);
+    }
+    setReady(true);
+  }, []);
 
   return (
     <main className="min-h-screen bg-stone-100 pb-24">
@@ -25,12 +41,17 @@ export default function Home() {
         </div>
       </header>
 
-      <div className="mx-auto grid max-w-6xl gap-6 px-4 py-6 sm:px-6 sm:py-8 lg:grid-cols-2 lg:gap-8">
+      <div
+        className={`mx-auto grid max-w-6xl gap-6 px-4 py-6 transition-opacity duration-300 sm:px-6 sm:py-8 lg:grid-cols-2 lg:gap-8 ${
+          ready ? "opacity-100" : "opacity-0"
+        }`}
+      >
         <div className="min-w-0">
           <CatalogueTabs />
         </div>
-        <div className="min-w-0 lg:sticky lg:top-8 lg:self-start">
+        <div className="min-w-0 space-y-6 lg:sticky lg:top-8 lg:self-start">
           <WorkspacePreview />
+          <SavedSetups />
         </div>
       </div>
 
@@ -48,7 +69,7 @@ export default function Home() {
             type="button"
             onClick={() => setCheckoutOpen(true)}
             disabled={total === 0}
-            className="rounded-xl bg-teal-600 px-5 py-3 font-semibold text-white transition hover:bg-teal-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40 sm:px-6"
+            className="rounded-xl bg-teal-600 px-5 py-3 font-semibold text-white shadow-sm transition hover:bg-teal-700 hover:shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40 sm:px-6"
           >
             Rent Your Setup
           </button>

@@ -28,4 +28,9 @@ export interface WorkspaceItem {
   monthlyPrice: number;
   shape: ItemShape;
   description?: string;
+  /**
+   * Optional product photo path (e.g. /products/desk-teak.jpg).
+   * When absent the UI renders a styled tile built from the shape primitive.
+   */
+  imageUrl?: string;
 }
